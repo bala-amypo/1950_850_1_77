@@ -12,7 +12,7 @@ public class AssessmentServiceImpl implements AssessmentResultService {
 
     private final AssessmentResultRepository repo;
 
-    public AssessmentResultServiceImpl(AssessmentResultRepository repo) {
+    public AssessmentServiceImpl(AssessmentResultRepository repo) {
         this.repo = repo;
     }
 
