@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.AssessmentResult;
-import com.example.demo.service.AssessmentResultService;
+import com.example.demo.service.AssessmentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +12,9 @@ import java.util.List;
 @Tag(name = "Assessments")
 public class AssessmentController {
 
-    private final AssessmentResultService service;
+    private final AssessmentService service;
 
-    public AssessmentController(AssessmentResultService service) {
+    public AssessmentController(AssessmentService service) {
         this.service = service;
     }
 
