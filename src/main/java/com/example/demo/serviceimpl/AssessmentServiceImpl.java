@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class AssessmentResultServiceImpl implements AssessmentResultService {
+public class AssessmentServiceImpl implements AssessmentResultService {
 
     private final AssessmentResultRepository repo;
 
