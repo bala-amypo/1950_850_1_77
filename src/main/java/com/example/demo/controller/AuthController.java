@@ -28,8 +28,8 @@ public class AuthController {
         return service.getById(id);
     }
 
-    @GetMapping
-    public List<User> getAll() {
-        return service.getAllUsers();
+    @GetMapping("/instructors")
+    public List<User> getInstructors() {
+        return service.listInstructors();
     }
 }
