@@ -9,38 +9,39 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements AuthService {
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository repo;
 
-    public UserServiceImpl(UserRepository repo) {
+    public AuthServiceImpl(UserRepository repo) {
         this.repo = repo;
     }
 
-    public User create(User user) {
-        if (repo.existsByEmail(user.getEmail()))
+    @Override
+    public User register(User user) {
+        if (repo.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
+        }
         return repo.save(user);
     }
 
+    @Override
     public User getById(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
-    public List<User> getAll() {
-        return repo.findAll();
+    @Override
+    public User findByEmail(String email) {
+        return repo.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
-    public User update(Long id, User user) {
-        User existing = getById(id);
-        existing.setFullName(user.getFullName());
-        existing.setEmail(user.getEmail());
-        existing.setRole(user.getRole());
-        return repo.save(existing);
-    }
-
-    public void delete(Long id) {
-        repo.delete(getById(id));
+    @Override
+    public List<User> listInstructors() {
+        return repo.findAll()
+                .stream()
+                .filter(u -> "INSTRUCTOR".equalsIgnoreCase(u.getRole()))
+                .toList();
     }
 }
