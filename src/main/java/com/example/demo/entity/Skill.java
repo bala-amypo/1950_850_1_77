@@ -24,5 +24,5 @@ public class Skill {
 
     private int minCompetencyScore;
 
-    private boolean active;
+    private Boolean active;
 }

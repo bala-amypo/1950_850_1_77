@@ -26,17 +26,13 @@ public class StudentProfile {
 
     private int yearLevel;
 
-    private boolean active;
+    private Boolean active;
 
     private Instant lastUpdatedAt;
 
     @PrePersist
-    public void prePersist() {
-        this.lastUpdatedAt = Instant.now();
-    }
-
     @PreUpdate
-    public void preUpdate() {
+    public void updateTime() {
         this.lastUpdatedAt = Instant.now();
     }
 
