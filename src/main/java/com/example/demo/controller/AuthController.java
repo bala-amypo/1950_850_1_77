@@ -1,35 +1,29 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.User;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.LoginResponse;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.service.AuthService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "Auth")
 public class AuthController {
 
-    private final AuthService service;
+    private final AuthService authService;
 
-    public AuthController(AuthService service) {
-        this.service = service;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody LoginRequest request) {
+        return authService.login(request);
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return service.register(user);
-    }
-
-    @GetMapping("/{id}")
-    public User getById(@PathVariable Long id) {
-        return service.getById(id);
-    }
-
-    @GetMapping("/instructors")
-    public List<User> getInstructors() {
-        return service.listInstructors();
+    public void register(@RequestBody RegisterRequest request) {
+        authService.register(request);
     }
 }
+
