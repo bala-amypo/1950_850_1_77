@@ -1,15 +1,8 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.Instant;
-
 @Entity
-@Getter @Setter
-@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AssessmentResult {
 
     @Id
@@ -20,8 +13,10 @@ public class AssessmentResult {
 
     private Double score;
 
+    @Builder.Default
     private Double maxScore = 100.0;
 
+    @Builder.Default
     private Instant attemptedAt = Instant.now();
 
     @ManyToOne

@@ -1,30 +1,24 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.Instant;
-
 @Entity
-@Getter @Setter
-@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class SkillGapRecommendation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Double gapScore;
+
+    @Builder.Default
+    private Instant generatedAt = Instant.now();
+
+    private String generatedBy;
+
     @ManyToOne
     private StudentProfile studentProfile;
 
     @ManyToOne
     private Skill skill;
-
-    private Double gapScore;
-
-    private Instant generatedAt = Instant.now();
-
-    private String generatedBy;
 }
