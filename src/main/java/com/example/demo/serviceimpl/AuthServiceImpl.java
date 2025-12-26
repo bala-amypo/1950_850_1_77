@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements AuthService {
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository repo;
 
-    public UserServiceImpl(UserRepository repo) {
+    public AuthServiceImpl(UserRepository repo) {
         this.repo = repo;
     }
 
@@ -45,3 +45,5 @@ public class UserServiceImpl implements AuthService {
                 .toList();
     }
 }
+
+
