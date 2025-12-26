@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -15,13 +14,13 @@ public class SkillGapRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "student_profile_id")
+    @ManyToOne
+    @JoinColumn(name = "student_profile_id", nullable = false)
     private StudentProfile studentProfile;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "skill_id")
+    @ManyToOne
+    @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
 
-    private Integer gapScore;
+    private double gapScore;
 }
