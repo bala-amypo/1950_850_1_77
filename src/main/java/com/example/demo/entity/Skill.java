@@ -4,27 +4,25 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Skill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    private String code;
+
     private String skillName;
 
-    @Column(nullable = false)
     private String category;
 
     private String description;
 
-    @Column(nullable = false)
-    private Double minCompetencyScore;
+    private int minCompetencyScore;
 
-    private Boolean active = true;
+    private boolean active;
 }

@@ -2,40 +2,45 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+
+import java.time.Instant;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class StudentProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "user_id", unique = true)
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(nullable = false, unique = true)
     private String enrollmentId;
 
-    @Column(nullable = false)
     private String cohort;
 
-    @Column(nullable = false)
-    private Integer yearLevel;
+    private int yearLevel;
 
-    private Boolean active = true;
+    private boolean active;
 
-    private LocalDateTime lastUpdatedAt;
+    private Instant lastUpdatedAt;
 
     @PrePersist
+    public void prePersist() {
+        this.lastUpdatedAt = Instant.now();
+    }
+
     @PreUpdate
-    void updateTimestamp() {
-        this.lastUpdatedAt = LocalDateTime.now();
+    public void preUpdate() {
+        this.lastUpdatedAt = Instant.now();
+    }
+
+    public void grade(String grade) {
+        this.cohort = grade;
     }
 }
