@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,14 +16,18 @@ public class AssessmentResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String assessmentId;
+    private int score;
 
-    private Double score;
-    private Double maxScore;
+    private int maxScore;
 
     @ManyToOne
+    @JoinColumn(name = "student_profile_id")
     private StudentProfile studentProfile;
 
     @ManyToOne
+    @JoinColumn(name = "skill_id")
     private Skill skill;
+
+    // REQUIRED for repository sorting
+    private Instant attemptedAt;
 }
