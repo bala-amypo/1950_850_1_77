@@ -16,23 +16,13 @@ public class AssessmentController {
         this.service = service;
     }
 
-    // CREATE assessment
     @PostMapping
     public AssessmentResult create(@RequestBody AssessmentResult result) {
-        return service.create(result);
+        return service.recordAssessment(result);
     }
 
-    // GET all assessments by student
-    @GetMapping("/student/{studentId}")
-    public List<AssessmentResult> getByStudent(@PathVariable Long studentId) {
-        return service.getByStudent(studentId);
-    }
-
-    // GET assessment by student + skill (SINGLE result)
-    @GetMapping("/student/{studentId}/skill/{skillId}")
-    public AssessmentResult getByStudentAndSkill(
-            @PathVariable Long studentId,
-            @PathVariable Long skillId) {
-        return service.getByStudentAndSkill(studentId, skillId);
+    @GetMapping("/student/{id}")
+    public List<AssessmentResult> getByStudent(@PathVariable Long id) {
+        return service.getByStudent(id);
     }
 }
