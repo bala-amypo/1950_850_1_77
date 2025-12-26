@@ -17,7 +17,7 @@ public class AssessmentController {
     }
 
     @PostMapping
-    public AssessmentResult create(@RequestBody AssessmentResult result) {
+    public AssessmentResult record(@RequestBody AssessmentResult result) {
         return service.recordAssessment(result);
     }
 
