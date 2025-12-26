@@ -3,10 +3,11 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
-@Data
+@Getter @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SkillGapRecommendation {
@@ -21,14 +22,9 @@ public class SkillGapRecommendation {
     @ManyToOne
     private Skill skill;
 
-    private double gapScore;
+    private Double gapScore;
 
-    private String priority;
+    private Instant generatedAt = Instant.now();
 
-    private LocalDateTime generatedAt;
-
-    @PrePersist
-    public void onCreate() {
-        this.generatedAt = LocalDateTime.now();
-    }
+    private String generatedBy;
 }
