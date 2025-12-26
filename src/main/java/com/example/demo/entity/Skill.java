@@ -5,24 +5,20 @@ import lombok.*;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Skill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String code;
-
     private String skillName;
-
     private String category;
-
     private String description;
 
-    private int minCompetencyScore;
+    private Integer minCompetencyScore;
 
-    private Boolean active;
+    private Boolean active;   // ← IMPORTANT
 }

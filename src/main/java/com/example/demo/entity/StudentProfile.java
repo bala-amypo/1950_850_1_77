@@ -3,13 +3,13 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class StudentProfile {
 
     @Id
@@ -17,26 +17,13 @@ public class StudentProfile {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     private String enrollmentId;
-
     private String cohort;
+    private Integer yearLevel;
 
-    private int yearLevel;
+    private Boolean active;   // ← IMPORTANT
 
-    private Boolean active;
-
-    private Instant lastUpdatedAt;
-
-    @PrePersist
-    @PreUpdate
-    public void updateTime() {
-        this.lastUpdatedAt = Instant.now();
-    }
-
-    public void grade(String grade) {
-        this.cohort = grade;
-    }
+    private LocalDateTime lastUpdatedAt;
 }
