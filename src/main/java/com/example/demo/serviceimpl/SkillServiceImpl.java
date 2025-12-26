@@ -24,7 +24,6 @@ public class SkillServiceImpl implements SkillService {
         return repo.save(skill);
     }
 
-    // ✅ REQUIRED BY INTERFACE
     @Override
     public Skill update(Long id, Skill skill) {
         Skill existing = repo.findById(id)
@@ -42,12 +41,17 @@ public class SkillServiceImpl implements SkillService {
                 .orElseThrow(() -> new RuntimeException("Skill not found"));
     }
 
+    // ✅ MISSING METHOD — NOW ADDED
+    @Override
+    public List<Skill> getAll() {
+        return repo.findAll();
+    }
+
     @Override
     public List<Skill> getActiveSkills() {
         return repo.findByActiveTrue();
     }
 
-    // ✅ REQUIRED BY INTERFACE
     @Override
     public void delete(Long id) {
         if (!repo.existsById(id)) {

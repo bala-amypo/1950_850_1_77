@@ -5,6 +5,8 @@ import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.StudentProfileService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentProfileServiceImpl implements StudentProfileService {
 
@@ -19,7 +21,6 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         return repo.save(profile);
     }
 
-    // ✅ REQUIRED BY INTERFACE
     @Override
     public StudentProfile update(Long id, StudentProfile profile) {
         StudentProfile existing = repo.findById(id)
@@ -37,7 +38,12 @@ public class StudentProfileServiceImpl implements StudentProfileService {
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
     }
 
-    // ✅ REQUIRED BY INTERFACE
+    // ✅ MISSING METHOD — NOW ADDED
+    @Override
+    public List<StudentProfile> getAll() {
+        return repo.findAll();
+    }
+
     @Override
     public void delete(Long id) {
         if (!repo.existsById(id)) {
