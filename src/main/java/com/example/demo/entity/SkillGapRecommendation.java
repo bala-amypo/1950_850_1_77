@@ -1,7 +1,8 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.Instant;
+import lombok.*;
+
 @Entity
 @Data
 @Builder
@@ -9,7 +10,8 @@ import java.time.Instant;
 @AllArgsConstructor
 public class SkillGapRecommendation {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long studentId;

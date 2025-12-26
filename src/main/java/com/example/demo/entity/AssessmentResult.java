@@ -3,8 +3,6 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Instant;
-
 @Entity
 @Data
 @Builder
@@ -12,7 +10,8 @@ import java.time.Instant;
 @AllArgsConstructor
 public class AssessmentResult {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long studentProfileId;
