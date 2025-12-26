@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     @Override
-    public LoginResponse login(LoginRequest request) {
-        return new LoginResponse("Login successful", "dummy-token");
+    public LoginRequest login(LoginRequest request) {
+        return new LoginRequest("Login successful", "dummy-token");
     }
 
     @Override
