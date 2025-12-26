@@ -1,42 +1,19 @@
-package com.example.demo.entity;
+package com.example.demo.service;
 
-import jakarta.persistence.*;
-import lombok.*;
+import com.example.demo.entity.StudentProfile;
+import java.util.List;
 
-import java.time.Instant;
+public interface StudentProfileService {
 
-@Entity
-@Table(name = "student_profiles")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class StudentProfile {
+    StudentProfile create(StudentProfile profile);
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    StudentProfile update(Long id, StudentProfile profile);
 
-    // relationship with User
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    StudentProfile getById(Long id);
 
-    @Column(unique = true, nullable = false)
-    private String enrollmentId;
+    StudentProfile getByUserId(Long userId);
 
-    private String cohort;
+    List<StudentProfile> getAll();
 
-    private Integer yearLevel;
-
-    @Builder.Default
-    private boolean active = true;
-
-    @Builder.Default
-    private Instant lastUpdatedAt = Instant.now();
-
-    @PreUpdate
-    public void preUpdate() {
-        this.lastUpdatedAt = Instant.now();
-    }
+    void delete(Long id);
 }
