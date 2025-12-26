@@ -2,41 +2,33 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class SkillGapRecommendation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private StudentProfile studentProfile;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Skill skill;
 
-    @Column(nullable = false)
-    private String recommendedAction;
+    private double gapScore;
 
-    @Column(nullable = false)
     private String priority;
-
-    @Column(nullable = false)
-    private Double gapScore;
-
-    private String generatedBy;
 
     private LocalDateTime generatedAt;
 
     @PrePersist
-    void onCreate() {
+    public void onCreate() {
         this.generatedAt = LocalDateTime.now();
     }
 }

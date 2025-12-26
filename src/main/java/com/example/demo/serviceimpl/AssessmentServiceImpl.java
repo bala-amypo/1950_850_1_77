@@ -18,12 +18,12 @@ public class AssessmentServiceImpl implements AssessmentService {
     }
 
     @Override
-    public AssessmentResult recordAssessment(AssessmentResult result) {
+    public AssessmentResult create(AssessmentResult result) {
         return repository.save(result);
     }
 
     @Override
-    public List<AssessmentResult> getResultsByStudent(Long studentId) {
+    public List<AssessmentResult> getByStudent(Long studentId) {
         return repository.findByStudentProfileId(studentId);
     }
 
