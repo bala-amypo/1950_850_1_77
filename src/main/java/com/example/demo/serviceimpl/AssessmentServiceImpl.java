@@ -11,29 +11,25 @@ import java.util.List;
 @Service
 public class AssessmentServiceImpl implements AssessmentService {
 
-    private final AssessmentResultRepository assessmentResultRepository;
+    private final AssessmentResultRepository repository;
 
-    public AssessmentServiceImpl(AssessmentResultRepository assessmentResultRepository) {
-        this.assessmentResultRepository = assessmentResultRepository;
+    public AssessmentServiceImpl(AssessmentResultRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public AssessmentResult recordAssessment(AssessmentResult result) {
-        if (result.getScore() < 0 || result.getScore() > result.getMaxScore()) {
-            throw new IllegalArgumentException("Score must be between 0 and maxScore");
-        }
-        return assessmentResultRepository.save(result);
+        return repository.save(result);
     }
 
     @Override
     public List<AssessmentResult> getResultsByStudent(Long studentId) {
-        return assessmentResultRepository.findByStudentProfileId(studentId);
+        return repository.findByStudentProfileId(studentId);
     }
 
     @Override
-    public AssessmentResult getResultByStudentAndSkill(Long studentId, Long skillId) {
-        return assessmentResultRepository
-                .findTopByStudentProfileIdAndSkillIdOrderByAttemptedAtDesc(studentId, skillId)
+    public AssessmentResult getByStudentAndSkill(Long studentId, Long skillId) {
+        return repository.findByStudentProfileIdAndSkillId(studentId, skillId)
                 .orElseThrow(() -> new ResourceNotFoundException("Assessment not found"));
     }
 }
