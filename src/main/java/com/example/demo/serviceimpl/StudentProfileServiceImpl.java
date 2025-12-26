@@ -21,15 +21,11 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         return repo.save(profile);
     }
 
+    // ✅ MISSING METHOD – NOW ADDED
     @Override
-    public StudentProfile update(Long id, StudentProfile profile) {
-        StudentProfile existing = repo.findById(id)
+    public StudentProfile getById(Long id) {
+        return repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
-
-        existing.setEnrollmentId(profile.getEnrollmentId());
-        existing.setGrade(profile.getGrade());
-
-        return repo.save(existing);
     }
 
     @Override
@@ -38,10 +34,17 @@ public class StudentProfileServiceImpl implements StudentProfileService {
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
     }
 
-    // ✅ MISSING METHOD — NOW ADDED
     @Override
     public List<StudentProfile> getAll() {
         return repo.findAll();
+    }
+
+    @Override
+    public StudentProfile update(Long id, StudentProfile profile) {
+        StudentProfile existing = getById(id);
+        existing.setEnrollmentId(profile.getEnrollmentId());
+        existing.setGrade(profile.getGrade());
+        return repo.save(existing);
     }
 
     @Override

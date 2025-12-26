@@ -16,8 +16,9 @@ public class SkillServiceImpl implements SkillService {
         this.repo = repo;
     }
 
+    // ✅ MUST MATCH INTERFACE NAME
     @Override
-    public Skill createSkill(Skill skill) {
+    public Skill create(Skill skill) {
         if (repo.findByCode(skill.getCode()).isPresent()) {
             throw new IllegalArgumentException("Skill code must be unique");
         }
@@ -31,7 +32,6 @@ public class SkillServiceImpl implements SkillService {
 
         existing.setName(skill.getName());
         existing.setActive(skill.isActive());
-
         return repo.save(existing);
     }
 
@@ -41,7 +41,6 @@ public class SkillServiceImpl implements SkillService {
                 .orElseThrow(() -> new RuntimeException("Skill not found"));
     }
 
-    // ✅ MISSING METHOD — NOW ADDED
     @Override
     public List<Skill> getAll() {
         return repo.findAll();
