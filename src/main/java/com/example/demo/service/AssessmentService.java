@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface AssessmentService {
 
-    AssessmentResult recordAssessment(AssessmentResult result);
+    AssessmentResult create(AssessmentResult result);
 
-    List<AssessmentResult> getResultsByStudent(Long studentId);
+    List<AssessmentResult> getByStudent(Long studentId);
 
     AssessmentResult getByStudentAndSkill(Long studentId, Long skillId);
 }
