@@ -18,14 +18,14 @@ public class AssessmentServiceImpl implements AssessmentService {
     }
 
     @Override
-    public AssessmentResult create(AssessmentResult result) {
+    public AssessmentResult recordAssessment(AssessmentResult result) {
         result.setAttemptedAt(Instant.now());
         return repository.save(result);
     }
 
     @Override
-    public List<AssessmentResult> getAll() {
-        return repository.findAll();
+    public List<AssessmentResult> getByStudent(Long studentProfileId) {
+        return repository.findByStudentProfileId(studentProfileId);
     }
 
     @Override
