@@ -1,6 +1,5 @@
 package com.example.demo.serviceimpl;
 
-import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
@@ -42,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
     public List<User> listInstructors() {
         return repo.findAll()
                 .stream()
-                .filter(u -> u.getRole() == Role.INSTRUCTOR)
+                .filter(u -> u.getRole() == User.Role.INSTRUCTOR)
                 .toList();
     }
 }
