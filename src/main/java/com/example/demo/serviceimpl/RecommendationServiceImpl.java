@@ -1,9 +1,12 @@
 package com.example.demo.serviceimpl;
 
 import com.example.demo.entity.AssessmentResult;
+import com.example.demo.entity.Skill;
 import com.example.demo.entity.SkillGapRecommendation;
+import com.example.demo.entity.StudentProfile;
 import com.example.demo.repository.AssessmentResultRepository;
 import com.example.demo.repository.SkillGapRecommendationRepository;
+import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.RecommendationService;
 import org.springframework.stereotype.Service;
 
@@ -16,47 +19,51 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     private final AssessmentResultRepository assessmentRepo;
     private final SkillGapRecommendationRepository recommendationRepo;
+    private final StudentProfileRepository studentProfileRepo;
 
     public RecommendationServiceImpl(
             AssessmentResultRepository assessmentRepo,
-            SkillGapRecommendationRepository recommendationRepo
+            SkillGapRecommendationRepository recommendationRepo,
+            StudentProfileRepository studentProfileRepo
     ) {
         this.assessmentRepo = assessmentRepo;
         this.recommendationRepo = recommendationRepo;
+        this.studentProfileRepo = studentProfileRepo;
     }
 
     @Override
-    public List<SkillGapRecommendation> generateRecommendations(Long studentProfileId) {
+    public List<SkillGapRecommendation> getRecommendationsForStudent(Long studentProfileId) {
+
+        StudentProfile profile = studentProfileRepo.findById(studentProfileId)
+                .orElseThrow(() -> new RuntimeException("Student profile not found"));
 
         List<AssessmentResult> results =
                 assessmentRepo.findByStudentProfileId(studentProfileId);
 
         List<SkillGapRecommendation> recommendations = new ArrayList<>();
 
-        for (AssessmentResult r : results) {
+        for (AssessmentResult result : results) {
 
-            double percentage =
-                    (r.getScore() * 100.0) / r.getMaxScore();
+            int score = result.getScore();
+            int maxScore = result.getMaxScore();
 
-            if (percentage < 70) {
-                SkillGapRecommendation rec =
-                        SkillGapRecommendation.builder()
-                                .studentProfile(r.getStudentProfile())
-                                .skill(r.getSkill())
-                                .gapScore(100 - percentage)
-                                .createdAt(Instant.now())
-                                .build();
+            if (score < maxScore) {
 
-                recommendations.add(
-                        recommendationRepo.save(rec)
+                Skill skill = result.getSkill();
+
+                SkillGapRecommendation rec = new SkillGapRecommendation();
+                rec.setStudentProfile(profile);
+                rec.setSkill(skill);
+                rec.setRecommendationText(
+                        "Improve skill: " + skill.getName() +
+                        " (Score: " + score + "/" + maxScore + ")"
                 );
+                rec.setGeneratedAt(Instant.now());
+
+                recommendations.add(recommendationRepo.save(rec));
             }
         }
-        return recommendations;
-    }
 
-    @Override
-    public List<SkillGapRecommendation> getRecommendationsForStudent(Long studentProfileId) {
-        return recommendationRepo.findByStudentProfile_Id(studentProfileId);
+        return recommendations;
     }
 }
