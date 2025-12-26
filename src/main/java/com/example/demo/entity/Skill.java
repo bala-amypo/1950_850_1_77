@@ -1,3 +1,8 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -12,6 +17,5 @@ public class Skill {
     private String code;
     private String name;
 
-    @Builder.Default
-    private boolean active = true;
+    private boolean active;
 }

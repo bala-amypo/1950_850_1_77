@@ -1,3 +1,8 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -12,12 +17,7 @@ public class AssessmentResult {
     private String assessmentId;
 
     private Double score;
-
-    @Builder.Default
-    private Double maxScore = 100.0;
-
-    @Builder.Default
-    private Instant attemptedAt = Instant.now();
+    private Double maxScore;
 
     @ManyToOne
     private StudentProfile studentProfile;

@@ -1,3 +1,8 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -10,11 +15,6 @@ public class SkillGapRecommendation {
     private Long id;
 
     private Double gapScore;
-
-    @Builder.Default
-    private Instant generatedAt = Instant.now();
-
-    private String generatedBy;
 
     @ManyToOne
     private StudentProfile studentProfile;
