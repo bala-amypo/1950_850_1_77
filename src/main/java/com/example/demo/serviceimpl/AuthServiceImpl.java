@@ -1,47 +1,43 @@
 package com.example.demo.serviceimpl;
 
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.LoginResponse;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.User;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.AuthService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
+@Primary
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepository repo;
-
-    public AuthServiceImpl(UserRepository repo) {
-        this.repo = repo;
-    }
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User register(User user) {
-        if (repo.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+    public LoginResponse login(LoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("Invalid email"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid password");
         }
-        return repo.save(user);
+
+        return new LoginResponse("LOGIN_SUCCESS");
     }
 
     @Override
-    public User getById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
+    public void register(RegisterRequest request) {
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(request.getRole());
 
-    @Override
-    public User findByEmail(String email) {
-        return repo.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
-
-    @Override
-    public List<User> listInstructors() {
-        return repo.findAll()
-                .stream()
-                .filter(u -> u.getRole() == User.Role.INSTRUCTOR)
-                .toList();
+        userRepository.save(user);
     }
 }

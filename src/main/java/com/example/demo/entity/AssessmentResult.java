@@ -6,7 +6,8 @@ import lombok.*;
 import java.time.Instant;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,9 +17,9 @@ public class AssessmentResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int score;
+    private Integer score;
 
-    private int maxScore;
+    private Integer maxScore;
 
     @ManyToOne
     @JoinColumn(name = "student_profile_id")
@@ -28,6 +29,6 @@ public class AssessmentResult {
     @JoinColumn(name = "skill_id")
     private Skill skill;
 
-    // REQUIRED for repository sorting
+    @Column(nullable = false)
     private Instant attemptedAt;
 }
