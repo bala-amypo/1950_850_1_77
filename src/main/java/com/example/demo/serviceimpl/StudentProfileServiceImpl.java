@@ -1,6 +1,7 @@
 package com.example.demo.serviceimpl;
 
 import com.example.demo.entity.StudentProfile;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.StudentProfileService;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,6 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         this.repo = repo;
     }
 
-    // ✅ REQUIRED BY INTERFACE
     @Override
     public StudentProfile create(StudentProfile profile) {
         return repo.save(profile);
@@ -24,22 +24,21 @@ public class StudentProfileServiceImpl implements StudentProfileService {
 
     @Override
     public StudentProfile update(Long id, StudentProfile profile) {
-        StudentProfile existing = getById(id);
+        StudentProfile existing = repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found"));
+
         existing.setEnrollmentId(profile.getEnrollmentId());
-        existing.setGrade(profile.getGrade());
+        existing.setCohort(profile.getCohort());
+        existing.setYearLevel(profile.getYearLevel());
+        existing.setActive(profile.isActive());
+
         return repo.save(existing);
     }
 
     @Override
     public StudentProfile getById(Long id) {
         return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
-    }
-
-    @Override
-    public StudentProfile getByUserId(Long userId) {
-        return repo.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found"));
     }
 
     @Override
@@ -49,9 +48,12 @@ public class StudentProfileServiceImpl implements StudentProfileService {
 
     @Override
     public void delete(Long id) {
-        if (!repo.existsById(id)) {
-            throw new RuntimeException("Profile not found");
-        }
         repo.deleteById(id);
+    }
+
+    // ❗ EXTRA METHOD – NO @Override
+    public StudentProfile getByUserId(Long userId) {
+        return repo.findByUserId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found"));
     }
 }
