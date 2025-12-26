@@ -1,15 +1,27 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SkillGapRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String gapDescription;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "student_profile_id")
+    private StudentProfile studentProfile;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "skill_id")
+    private Skill skill;
+
+    private Integer gapScore;
 }
