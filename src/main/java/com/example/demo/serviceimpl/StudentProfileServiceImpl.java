@@ -16,12 +16,20 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         this.repo = repo;
     }
 
+    // ✅ REQUIRED BY INTERFACE
     @Override
-    public StudentProfile createOrUpdateProfile(StudentProfile profile) {
+    public StudentProfile create(StudentProfile profile) {
         return repo.save(profile);
     }
 
-    // ✅ MISSING METHOD – NOW ADDED
+    @Override
+    public StudentProfile update(Long id, StudentProfile profile) {
+        StudentProfile existing = getById(id);
+        existing.setEnrollmentId(profile.getEnrollmentId());
+        existing.setGrade(profile.getGrade());
+        return repo.save(existing);
+    }
+
     @Override
     public StudentProfile getById(Long id) {
         return repo.findById(id)
@@ -37,14 +45,6 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     @Override
     public List<StudentProfile> getAll() {
         return repo.findAll();
-    }
-
-    @Override
-    public StudentProfile update(Long id, StudentProfile profile) {
-        StudentProfile existing = getById(id);
-        existing.setEnrollmentId(profile.getEnrollmentId());
-        existing.setGrade(profile.getGrade());
-        return repo.save(existing);
     }
 
     @Override

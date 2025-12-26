@@ -16,7 +16,6 @@ public class SkillServiceImpl implements SkillService {
         this.repo = repo;
     }
 
-    // ✅ MUST MATCH INTERFACE NAME
     @Override
     public Skill create(Skill skill) {
         if (repo.findByCode(skill.getCode()).isPresent()) {
@@ -27,9 +26,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public Skill update(Long id, Skill skill) {
-        Skill existing = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Skill not found"));
-
+        Skill existing = getById(id);
         existing.setName(skill.getName());
         existing.setActive(skill.isActive());
         return repo.save(existing);
