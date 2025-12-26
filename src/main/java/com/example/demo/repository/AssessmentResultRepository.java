@@ -9,7 +9,11 @@ import java.util.Optional;
 public interface AssessmentResultRepository
         extends JpaRepository<AssessmentResult, Long> {
 
-    List<AssessmentResult> findByStudentProfileId(Long studentId);
+    List<AssessmentResult> findByStudentProfileId(Long studentProfileId);
 
-    Optional<AssessmentResult> findByStudentProfileIdAndSkillId(Long studentId, Long skillId);
+    Optional<AssessmentResult>
+    findTopByStudentProfileIdAndSkillIdOrderByAttemptedAtDesc(
+            Long studentProfileId,
+            Long skillId
+    );
 }

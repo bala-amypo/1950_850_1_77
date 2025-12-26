@@ -18,7 +18,7 @@ public class AssessmentServiceImpl implements AssessmentService {
     }
 
     @Override
-    public AssessmentResult recordAssessment(AssessmentResult result) {
+    public AssessmentResult create(AssessmentResult result) {
         return repo.save(result);
     }
 
@@ -28,8 +28,17 @@ public class AssessmentServiceImpl implements AssessmentService {
     }
 
     @Override
-    public AssessmentResult getByStudentAndSkill(Long studentId, Long skillId) {
-        return repo.findTopByStudentProfileIdAndSkillIdOrderByAttemptedAtDesc(studentId, skillId)
-                .orElseThrow(() -> new ResourceNotFoundException("Assessment not found"));
+    public AssessmentResult getByStudentAndSkill(
+            Long studentProfileId,
+            Long skillId
+    ) {
+        return repo
+                .findTopByStudentProfileIdAndSkillIdOrderByAttemptedAtDesc(
+                        studentProfileId,
+                        skillId
+                )
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Assessment not found")
+                );
     }
 }
