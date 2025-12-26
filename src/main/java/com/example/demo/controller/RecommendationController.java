@@ -16,8 +16,11 @@ public class RecommendationController {
         this.service = service;
     }
 
-    @GetMapping("/student/{id}")
-    public List<SkillGapRecommendation> getByStudent(@PathVariable Long id) {
-        return service.getRecommendationsForStudent(id);
+    @GetMapping("/{studentProfileId}")
+    public List<SkillGapRecommendation> getRecommendations(
+            @PathVariable Long studentProfileId
+    ) {
+        // ✅ CORRECT METHOD NAME
+        return service.generateRecommendations(studentProfileId);
     }
 }
