@@ -11,8 +11,6 @@ public interface StudentProfileService {
 
     StudentProfile getById(Long id);
 
-    StudentProfile getByUserId(Long userId);
-
     List<StudentProfile> getAll();
 
     void delete(Long id);
