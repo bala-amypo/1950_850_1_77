@@ -3,14 +3,16 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Instant;
-
 @Entity
-@Data
+@Getter @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+
+    public enum Role {
+        STUDENT, INSTRUCTOR, ADMIN
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,12 +20,11 @@ public class User {
 
     private String fullName;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    private Instant createdAt;
 }
