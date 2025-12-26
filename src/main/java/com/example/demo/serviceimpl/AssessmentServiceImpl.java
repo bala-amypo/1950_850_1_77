@@ -5,36 +5,32 @@ import com.example.demo.repository.AssessmentResultRepository;
 import com.example.demo.service.AssessmentService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
 public class AssessmentServiceImpl implements AssessmentService {
 
-    private final AssessmentResultRepository repo;
+    private final AssessmentResultRepository repository;
 
-    public AssessmentServiceImpl(AssessmentResultRepository repo) {
-        this.repo = repo;
+    public AssessmentServiceImpl(AssessmentResultRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public AssessmentResult recordAssessment(AssessmentResult result) {
-        if (result.getScore() == null ||
-            result.getScore() < 0 ||
-            result.getScore() > result.getMaxScore()) {
-            throw new IllegalArgumentException("Score must be between 0 and maxScore");
-        }
-        return repo.save(result);
+    public AssessmentResult create(AssessmentResult result) {
+        result.setAttemptedAt(Instant.now());
+        return repository.save(result);
     }
 
     @Override
-    public List<AssessmentResult> getByStudent(Long studentId) {
-        return repo.findByStudentProfileId(studentId);
+    public List<AssessmentResult> getAll() {
+        return repository.findAll();
     }
 
     @Override
-    public AssessmentResult getByStudentAndSkill(Long studentId, Long skillId) {
-        return repo
-            .findTopByStudentProfileIdAndSkillIdOrderByAttemptedAtDesc(studentId, skillId)
-            .orElse(null);
+    public AssessmentResult getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("AssessmentResult not found"));
     }
 }
