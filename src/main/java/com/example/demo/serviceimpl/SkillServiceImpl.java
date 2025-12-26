@@ -45,4 +45,13 @@ public class SkillServiceImpl implements SkillService {
     public List<Skill> getActiveSkills() {
         return repo.findByActiveTrue();
     }
+
+    // ✅ MISSING METHOD — NOW ADDED
+    @Override
+    public void delete(Long id) {
+        if (!repo.existsById(id)) {
+            throw new RuntimeException("Skill not found");
+        }
+        repo.deleteById(id);
+    }
 }

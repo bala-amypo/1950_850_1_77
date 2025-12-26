@@ -24,4 +24,13 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         return repo.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
     }
+
+    // ✅ MISSING METHOD — NOW ADDED
+    @Override
+    public void delete(Long id) {
+        if (!repo.existsById(id)) {
+            throw new RuntimeException("Profile not found");
+        }
+        repo.deleteById(id);
+    }
 }
