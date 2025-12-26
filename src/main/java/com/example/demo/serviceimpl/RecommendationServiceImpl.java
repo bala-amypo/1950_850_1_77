@@ -31,8 +31,9 @@ public class RecommendationServiceImpl implements RecommendationService {
         this.studentProfileRepo = studentProfileRepo;
     }
 
+    // ✅ METHOD NAME MUST MATCH INTERFACE EXACTLY
     @Override
-    public List<SkillGapRecommendation> getRecommendationsForStudent(Long studentProfileId) {
+    public List<SkillGapRecommendation> generateRecommendations(Long studentProfileId) {
 
         StudentProfile profile = studentProfileRepo.findById(studentProfileId)
                 .orElseThrow(() -> new RuntimeException("Student profile not found"));
@@ -44,10 +45,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         for (AssessmentResult result : results) {
 
-            int score = result.getScore();
-            int maxScore = result.getMaxScore();
-
-            if (score < maxScore) {
+            if (result.getScore() < result.getMaxScore()) {
 
                 Skill skill = result.getSkill();
 
@@ -55,8 +53,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                 rec.setStudentProfile(profile);
                 rec.setSkill(skill);
                 rec.setRecommendationText(
-                        "Improve skill: " + skill.getName() +
-                        " (Score: " + score + "/" + maxScore + ")"
+                        "Improve skill: " + skill.getName()
                 );
                 rec.setGeneratedAt(Instant.now());
 
