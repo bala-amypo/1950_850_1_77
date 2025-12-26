@@ -6,29 +6,17 @@ import lombok.*;
 import java.time.Instant;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class AssessmentResult {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
 
-    private Integer score;
-
-    private Integer maxScore;
-
-    @ManyToOne
-    @JoinColumn(name = "student_profile_id")
-    private StudentProfile studentProfile;
-
-    @ManyToOne
-    @JoinColumn(name = "skill_id")
-    private Skill skill;
-
-    @Column(nullable = false)
-    private Instant attemptedAt;
+    private Long studentProfileId;
+    private Long skillId;
+    private double score;
+    private String assessmentId;
 }
