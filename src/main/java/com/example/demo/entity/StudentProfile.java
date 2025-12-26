@@ -5,26 +5,16 @@ import lombok.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentProfile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
 
-    // ✅ REQUIRED
-    private String enrollmentId;
-
-    // ✅ REQUIRED
+    private String name;
     private String cohort;
 
-    // ✅ REQUIRED
-    private int yearLevel;
-
-    // ✅ REQUIRED
-    private boolean active;
-
-    @OneToOne
-    private User user;
+    private Long lastUpdatedAt;
 }

@@ -5,19 +5,11 @@ import lombok.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Skill {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Long id;
-
-    // ✅ REQUIRED
-    private String code;
-
     private String name;
-
-    // ✅ REQUIRED
-    private boolean active;
 }
