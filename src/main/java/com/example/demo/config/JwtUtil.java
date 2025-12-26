@@ -16,6 +16,7 @@ public class JwtUtil {
         this.expiry = expiry;
     }
 
+    // DEFAULT
     public JwtUtil() {
         this("defaultsecretdefaultsecretdefaultsecret", 3600000);
     }
@@ -29,6 +30,7 @@ public class JwtUtil {
                 .compact();
     }
 
+    // REQUIRED BY TEST
     public String validateAndParse(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)

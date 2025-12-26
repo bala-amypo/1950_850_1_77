@@ -2,18 +2,10 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.AssessmentResult;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
 import java.util.Optional;
 
-public interface AssessmentResultRepository
-        extends JpaRepository<AssessmentResult, Long> {
+public interface AssessmentResultRepository extends JpaRepository<AssessmentResult, Long> {
 
     Optional<AssessmentResult>
-    findTopByStudentProfileIdAndSkillIdOrderByAttemptedAtDesc(
-            Long studentProfileId,
-            Long skillId
-    );
-
-    List<AssessmentResult> findByStudentProfileId(Long studentProfileId);
+    findByStudentProfileIdAndSkillId(Long studentId, Long skillId);
 }

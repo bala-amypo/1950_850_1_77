@@ -1,57 +1,17 @@
 package com.example.demo.serviceimpl;
 
 import com.example.demo.entity.Skill;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.SkillRepository;
-import com.example.demo.service.SkillService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class SkillServiceImpl implements SkillService {
+@RequiredArgsConstructor
+public class SkillServiceImpl {
 
-    private final SkillRepository repo;
+    private final SkillRepository repository;
 
-    public SkillServiceImpl(SkillRepository repo) {
-        this.repo = repo;
-    }
-
-    @Override
-    public Skill create(Skill skill) {
-        return repo.save(skill);
-    }
-
-    @Override
-    public Skill update(Long id, Skill skill) {
-        Skill existing = repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Skill not found"));
-
-        existing.setCode(skill.getCode());
-        existing.setName(skill.getName());
-        existing.setActive(skill.isActive());
-
-        return repo.save(existing);
-    }
-
-    @Override
-    public Skill getById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Skill not found"));
-    }
-
-    @Override
-    public List<Skill> getAll() {
-        return repo.findAll();
-    }
-
-    @Override
-    public void delete(Long id) {
-        repo.deleteById(id);
-    }
-
-    // ❗ EXTRA METHOD – NO @Override
-    public List<Skill> getActiveSkills() {
-        return repo.findByActiveTrue();
+    public Skill createSkill(Skill skill) {
+        return repository.save(skill);
     }
 }
