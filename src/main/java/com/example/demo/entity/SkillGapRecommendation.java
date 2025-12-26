@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,11 +16,13 @@ public class SkillGapRecommendation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double gapScore;
-
     @ManyToOne
     private StudentProfile studentProfile;
 
     @ManyToOne
     private Skill skill;
+
+    private Double gapScore;
+
+    private Instant createdAt;
 }

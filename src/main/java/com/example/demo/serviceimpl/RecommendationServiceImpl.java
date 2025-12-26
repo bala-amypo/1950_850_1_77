@@ -1,12 +1,9 @@
 package com.example.demo.serviceimpl;
 
 import com.example.demo.entity.AssessmentResult;
-import com.example.demo.entity.Skill;
 import com.example.demo.entity.SkillGapRecommendation;
-import com.example.demo.entity.StudentProfile;
 import com.example.demo.repository.AssessmentResultRepository;
 import com.example.demo.repository.SkillGapRecommendationRepository;
-import com.example.demo.repository.SkillRepository;
 import com.example.demo.service.RecommendationService;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +16,13 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     private final AssessmentResultRepository assessmentRepo;
     private final SkillGapRecommendationRepository recommendationRepo;
-    private final SkillRepository skillRepo;
 
     public RecommendationServiceImpl(
             AssessmentResultRepository assessmentRepo,
-            SkillGapRecommendationRepository recommendationRepo,
-            SkillRepository skillRepo
+            SkillGapRecommendationRepository recommendationRepo
     ) {
         this.assessmentRepo = assessmentRepo;
         this.recommendationRepo = recommendationRepo;
-        this.skillRepo = skillRepo;
     }
 
     @Override
@@ -45,16 +39,12 @@ public class RecommendationServiceImpl implements RecommendationService {
                     (r.getScore() * 100.0) / r.getMaxScore();
 
             if (percentage < 70) {
-
-                Skill skill = r.getSkill();
-                StudentProfile profile = r.getStudentProfile();
-
                 SkillGapRecommendation rec =
                         SkillGapRecommendation.builder()
-                                .studentProfile(profile)
-                                .skill(skill)
+                                .studentProfile(r.getStudentProfile())
+                                .skill(r.getSkill())
                                 .gapScore(100 - percentage)
-                                .generatedAt(Instant.now())
+                                .createdAt(Instant.now())
                                 .build();
 
                 recommendations.add(
@@ -66,7 +56,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public List<SkillGapRecommendation> getRecommendationsByStudent(Long studentProfileId) {
-        return recommendationRepo.findByStudentProfileId(studentProfileId);
+    public List<SkillGapRecommendation> getRecommendationsForStudent(Long studentProfileId) {
+        return recommendationRepo.findByStudentProfile_Id(studentProfileId);
     }
 }
