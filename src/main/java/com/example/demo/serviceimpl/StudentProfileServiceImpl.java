@@ -19,13 +19,25 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         return repo.save(profile);
     }
 
+    // ✅ REQUIRED BY INTERFACE
+    @Override
+    public StudentProfile update(Long id, StudentProfile profile) {
+        StudentProfile existing = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Profile not found"));
+
+        existing.setEnrollmentId(profile.getEnrollmentId());
+        existing.setGrade(profile.getGrade());
+
+        return repo.save(existing);
+    }
+
     @Override
     public StudentProfile getByUserId(Long userId) {
         return repo.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
     }
 
-    // ✅ MISSING METHOD — NOW ADDED
+    // ✅ REQUIRED BY INTERFACE
     @Override
     public void delete(Long id) {
         if (!repo.existsById(id)) {
