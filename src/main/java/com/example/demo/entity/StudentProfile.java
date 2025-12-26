@@ -1,13 +1,10 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class StudentProfile {
 
     @Id
@@ -16,9 +13,4 @@ public class StudentProfile {
 
     @OneToOne
     private User user;
-
-    private String enrollmentId;
-    private String cohort;
-    private Integer yearLevel;
-    private boolean active;
 }
