@@ -1,6 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.User;
 import lombok.*;
 
 @Getter
@@ -13,5 +12,5 @@ public class RegisterRequest {
     private String fullName;
     private String email;
     private String password;
-    private User.Role role;   // ADMIN / INSTRUCTOR / STUDENT
+    private String role;
 }
