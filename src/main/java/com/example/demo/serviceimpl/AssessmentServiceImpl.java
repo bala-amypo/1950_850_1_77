@@ -3,34 +3,32 @@ package com.example.demo.serviceimpl;
 import com.example.demo.entity.AssessmentResult;
 import com.example.demo.repository.AssessmentResultRepository;
 import com.example.demo.service.AssessmentService;
-import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
 
-@Service
 public class AssessmentServiceImpl implements AssessmentService {
 
-    private final AssessmentResultRepository repository;
+    private final AssessmentResultRepository repo;
 
-    public AssessmentServiceImpl(AssessmentResultRepository repository) {
-        this.repository = repository;
+    public AssessmentServiceImpl(AssessmentResultRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public AssessmentResult recordAssessment(AssessmentResult result) {
-        result.setAttemptedAt(Instant.now());
-        return repository.save(result);
+    public AssessmentResult recordAssessment(AssessmentResult r) {
+        if (r.getScore() == null || r.getScore() < 0 || r.getScore() > r.getMaxScore()) {
+            throw new IllegalArgumentException("Score must be between 0 and 100");
+        }
+        return repo.save(r);
     }
 
     @Override
-    public List<AssessmentResult> getByStudent(Long studentProfileId) {
-        return repository.findByStudentProfileId(studentProfileId);
+    public List<AssessmentResult> getResultsByStudent(Long studentId) {
+        return repo.findByStudentProfileId(studentId);
     }
 
     @Override
-    public AssessmentResult getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("AssessmentResult not found"));
+    public List<AssessmentResult> getResultsByStudentAndSkill(Long studentId, Long skillId) {
+        return repo.findByStudentProfileIdAndSkillId(studentId, skillId);
     }
 }

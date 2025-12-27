@@ -1,48 +1,45 @@
 package com.example.demo.serviceimpl;
 
 import com.example.demo.entity.StudentProfile;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.StudentProfileService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
 public class StudentProfileServiceImpl implements StudentProfileService {
 
-    private final StudentProfileRepository repository;
+    private final StudentProfileRepository repo;
 
-    @Override
-    public StudentProfile create(StudentProfile profile) {
-        return repository.save(profile);
+    public StudentProfileServiceImpl(StudentProfileRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public StudentProfile update(Long id, StudentProfile profile) {
-        // ensure ID exists
-        repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("StudentProfile not found"));
-
-        // force update by ID (NO field guessing)
-        profile.setId(id);
-        return repository.save(profile);
+    public StudentProfile createOrUpdateProfile(StudentProfile profile) {
+        return repo.save(profile);
     }
 
     @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public StudentProfile getProfileById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("profile not found"));
     }
 
     @Override
-    public StudentProfile getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("StudentProfile not found"));
+    public StudentProfile getByUserId(Long userId) {
+        return repo.findByUserId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("profile not found"));
     }
 
     @Override
-    public List<StudentProfile> getAll() {
-        return repository.findAll();
+    public StudentProfile getProfileByEnrollmentId(String enrollmentId) {
+        return repo.findByEnrollmentId(enrollmentId)
+                .orElseThrow(() -> new ResourceNotFoundException("profile not found"));
+    }
+
+    @Override
+    public List<StudentProfile> getAllProfiles() {
+        return repo.findAll();
     }
 }
