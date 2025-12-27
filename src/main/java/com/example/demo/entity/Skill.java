@@ -29,5 +29,6 @@ public class Skill {
     private Double minCompetencyScore = 0.0;
 
     @Builder.Default
-    private Boolean active = true;
+    private boolean active = true;
 }
+ 
