@@ -3,14 +3,18 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
+
 @Entity
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class SkillGapRecord {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -18,4 +22,18 @@ public class SkillGapRecord {
 
     @ManyToOne
     private Skill skill;
+
+    private Double currentScore;
+
+    private Double targetScore;
+
+    private Double gapScore;
+
+    private Instant calculatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.calculatedAt = Instant.now();
+    }
 }
+`

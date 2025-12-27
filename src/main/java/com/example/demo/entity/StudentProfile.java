@@ -3,18 +3,36 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
+
 @Entity
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class StudentProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne
+    private User user;
+
+    @Column(unique = true)
+    private String enrollmentId;
+
     private String cohort;
 
-    private Long lastUpdatedAt;
+    private Integer yearLevel;
+
+    private Boolean active = true;
+
+    private Instant lastUpdatedAt;
+
+    @PreUpdate
+    public void preUpdate() {
+        this.lastUpdatedAt = Instant.now();
+    }
 }

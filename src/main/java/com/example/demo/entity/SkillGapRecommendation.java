@@ -3,18 +3,38 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
+
 @Entity
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class SkillGapRecommendation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long studentId;
-    private Long skillId;
-    private String recommendation;
+    @ManyToOne
+    private StudentProfile studentProfile;
+
+    @ManyToOne
+    private Skill skill;
+
+    private String recommendedAction;
+
+    private String priority;
+
+    private Double gapScore;
+
+    private String generatedBy;
+
+    private Instant generatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.generatedAt = Instant.now();
+    }
 }
