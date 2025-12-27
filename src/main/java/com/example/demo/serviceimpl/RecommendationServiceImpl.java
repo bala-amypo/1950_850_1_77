@@ -5,9 +5,9 @@ import com.example.demo.repository.SkillGapRecommendationRepository;
 import com.example.demo.service.RecommendationService;
 import org.springframework.stereotype.Service;
 
-@Service
 import java.util.List;
 
+@Service
 public class RecommendationServiceImpl implements RecommendationService {
 
     private final SkillGapRecommendationRepository repository;
