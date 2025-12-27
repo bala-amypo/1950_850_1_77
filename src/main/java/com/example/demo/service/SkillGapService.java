@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface SkillGapService {
 
-    List<SkillGapRecord> calculateSkillGaps(Long studentProfileId);
+    List<SkillGapRecord> getSkillGaps(Long studentId);
 }
