@@ -1,18 +1,18 @@
 package com.example.demo.config;
 
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public JwtUtil jwtUtil() {
-        return new JwtUtil(
-                "01234567890123456789012345678901",
-                3600000
-        );
+    private final JwtUtil jwtUtil;
+
+    public SecurityConfig(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
     }
 
     @Bean
@@ -27,11 +27,11 @@ public class SecurityConfig {
                         "/swagger-ui/**",
                         "/v3/api-docs/**"
                 ).permitAll()
-                .requestMatchers("/api/**").authenticated()
+                .anyRequest().authenticated()
             )
             .addFilterBefore(
-                    new JwtAuthenticationFilter(jwtUtil()),
-                    org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class
+                new JwtAuthenticationFilter(jwtUtil),
+                UsernamePasswordAuthenticationFilter.class
             );
 
         return http.build();
