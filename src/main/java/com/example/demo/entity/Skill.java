@@ -15,16 +15,21 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String code;
 
     private String name;
 
-    private String category;
+    private Boolean active;
 
-    private String description;
+    private Double minCompetencyScore;
 
-    private Double minCompetencyScore = 0.0;
-
-    private boolean active = true;
+    @PrePersist
+    public void prePersist() {
+        if (active == null) {
+            active = true;
+        }
+        if (minCompetencyScore == null) {
+            minCompetencyScore = 0.0;
+        }
+    }
 }

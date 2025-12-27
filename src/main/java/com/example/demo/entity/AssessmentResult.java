@@ -17,25 +17,27 @@ public class AssessmentResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String assessmentId;
+
+    private Double score;
+
+    private Double maxScore;
+
+    private Instant attemptedAt;
+
     @ManyToOne
     private StudentProfile studentProfile;
 
     @ManyToOne
     private Skill skill;
 
-    private String assessmentId;
-
-    private Double score;
-
-    private Double maxScore = 100.0;
-
-    private Instant attemptedAt;
-
     @PrePersist
     public void prePersist() {
-        if (this.maxScore == null) {
-            this.maxScore = 100.0;
+        if (attemptedAt == null) {
+            attemptedAt = Instant.now();
         }
-        this.attemptedAt = Instant.now();
+        if (maxScore == null) {
+            maxScore = 100.0;
+        }
     }
 }

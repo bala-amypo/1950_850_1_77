@@ -17,22 +17,20 @@ public class StudentProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private User user;
-
-    @Column(unique = true)
     private String enrollmentId;
+
+    private String grade;
 
     private String cohort;
 
-    private Integer yearLevel;
-
-    private Boolean active = true;
-
     private Instant lastUpdatedAt;
 
+    @ManyToOne
+    private User user;
+
+    @PrePersist
     @PreUpdate
     public void preUpdate() {
-        this.lastUpdatedAt = Instant.now();
+        lastUpdatedAt = Instant.now();
     }
 }

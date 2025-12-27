@@ -23,21 +23,22 @@ public class User {
 
     private String fullName;
 
-    @Column(unique = true, nullable = false)
     private String email;
 
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.STUDENT;
+    private Role role;
 
     private Instant createdAt;
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = Instant.now();
-        if (this.role == null) {
-            this.role = Role.STUDENT;
+        if (createdAt == null) {
+            createdAt = Instant.now();
+        }
+        if (role == null) {
+            role = Role.STUDENT;
         }
     }
 }
