@@ -2,10 +2,11 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.AssessmentResult;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
+
+import java.util.List;
 
 public interface AssessmentResultRepository extends JpaRepository<AssessmentResult, Long> {
 
-    Optional<AssessmentResult>
-    findByStudentProfileIdAndSkillId(Long studentId, Long skillId);
+    // ✅ REQUIRED FOR AssessmentServiceImpl
+    List<AssessmentResult> findByStudentProfileId(Long studentProfileId);
 }
