@@ -10,5 +10,8 @@ import java.util.List;
 public interface AssessmentResultRepository
         extends JpaRepository<AssessmentResult, Long> {
 
+     List<AssessmentResult>
+    findByStudentProfileIdAndSkillId(Long studentProfileId, Long skillId);
+    
     List<AssessmentResult> findByStudentProfileId(Long studentProfileId);
 }
