@@ -10,14 +10,14 @@ import java.util.List;
 @Service
 public class SkillGapServiceImpl implements SkillGapService {
 
-    private final SkillGapRecordRepository skillGapRecordRepository;
+    private final SkillGapRecordRepository repository;
 
-    public SkillGapServiceImpl(SkillGapRecordRepository skillGapRecordRepository) {
-        this.skillGapRecordRepository = skillGapRecordRepository;
+    public SkillGapServiceImpl(SkillGapRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public List<SkillGapRecord> getSkillGaps(Long studentId) {
-        return skillGapRecordRepository.findByStudentProfileId(studentId);
+    public List<SkillGapRecord> calculateSkillGaps(Long studentId) {
+        return repository.findByStudentProfileId(studentId);
     }
 }
