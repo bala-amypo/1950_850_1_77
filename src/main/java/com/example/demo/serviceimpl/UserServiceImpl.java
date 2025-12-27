@@ -1,44 +1,48 @@
 package com.example.demo.serviceimpl;
 
 import com.example.demo.entity.User;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
-@Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository repository;
-    private final PasswordEncoder encoder;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder =
+            new BCryptPasswordEncoder();
 
-    public UserServiceImpl(UserRepository repository, PasswordEncoder encoder) {
-        this.repository = repository;
-        this.encoder = encoder;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public User register(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        user.setRole(user.getRole()); // ✅ String role
-        user.setActive(true);
-        return repository.save(user);
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found"));
     }
 
     @Override
     public User getById(Long id) {
-        return repository.findById(id).orElse(null);
+        return userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found"));
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return repository.findAll();
-    }
-
-    @Override
-    public User getByEmail(String email) {
-        return repository.findByEmail(email).orElse(null);
+    public List<User> listInstructors() {
+        return userRepository.findByRole(User.Role.INSTRUCTOR);
     }
 }
