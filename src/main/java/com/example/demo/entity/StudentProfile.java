@@ -10,7 +10,6 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class StudentProfile {
 
     @Id
@@ -25,12 +24,13 @@ public class StudentProfile {
 
     private Instant lastUpdatedAt;
 
-    @ManyToOne
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     @PrePersist
     @PreUpdate
-    public void preUpdate() {
-        lastUpdatedAt = Instant.now();
+    public void updateTimestamp() {
+        this.lastUpdatedAt = Instant.now();
     }
 }

@@ -2,11 +2,21 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.SkillGapRecommendation;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.*;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface SkillGapRecommendationRepository extends JpaRepository<SkillGapRecommendation, Long> {
-    List<SkillGapRecommendation> findByStudentProfileIdOrderByGeneratedAtDesc(Long studentProfileId);
+import java.util.List;
 
-    // used in tests
-    List<SkillGapRecommendation> findByStudentOrdered(Long studentId);
+public interface SkillGapRecommendationRepository
+        extends JpaRepository<SkillGapRecommendation, Long> {
+
+    @Query("""
+        SELECT r
+        FROM SkillGapRecommendation r
+        WHERE r.studentProfile.id = :studentId
+        ORDER BY r.priority DESC
+    """)
+    List<SkillGapRecommendation> findByStudentOrdered(
+            @Param("studentId") Long studentId
+    );
 }
