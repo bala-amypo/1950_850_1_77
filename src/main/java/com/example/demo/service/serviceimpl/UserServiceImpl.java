@@ -20,6 +20,9 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    // ==================================================
+    // 1️⃣ Used by Controller (DTO based registration)
+    // ==================================================
     @Override
     public User register(RegisterRequest request) {
 
@@ -39,6 +42,22 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    // ==================================================
+    // 2️⃣ REQUIRED BY TEST CASES (Entity based registration)
+    // ==================================================
+    public User register(User user) {
+
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    // ==================================================
+    // Other service methods
+    // ==================================================
     @Override
     public User getById(Long id) {
         return userRepository.findById(id)

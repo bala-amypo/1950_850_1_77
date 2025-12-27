@@ -31,7 +31,7 @@ public class StudentProfile {
 
     private Integer yearLevel;
 
-    private String grade; 
+    private String grade;   
 
     @Builder.Default
     private Boolean active = true;
