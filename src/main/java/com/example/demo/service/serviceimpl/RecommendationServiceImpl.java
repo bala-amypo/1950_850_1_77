@@ -1,14 +1,8 @@
 package com.example.demo.serviceimpl;
 
-import com.example.demo.entity.AssessmentResult;
-import com.example.demo.entity.Skill;
-import com.example.demo.entity.SkillGapRecommendation;
-import com.example.demo.entity.StudentProfile;
+import com.example.demo.entity.*;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.AssessmentResultRepository;
-import com.example.demo.repository.SkillGapRecommendationRepository;
-import com.example.demo.repository.StudentProfileRepository;
-import com.example.demo.repository.SkillRepository;
+import com.example.demo.repository.*;
 import com.example.demo.service.RecommendationService;
 import org.springframework.stereotype.Service;
 
@@ -53,8 +47,8 @@ public class RecommendationServiceImpl implements RecommendationService {
                 assessmentResultRepository
                         .findByStudentProfileIdAndSkillId(studentId, skillId);
 
-        double score = results.isEmpty() ? 0 : results.get(0).getScore();
-        double gap = skill.getMinCompetencyScore() - score;
+        double score = results.isEmpty() ? 0.0 : results.get(0).getScore();
+        double gap = Math.max(0, skill.getMinCompetencyScore() - score);
 
         SkillGapRecommendation rec = new SkillGapRecommendation();
         rec.setStudentProfile(studentProfile);
@@ -81,9 +75,9 @@ public class RecommendationServiceImpl implements RecommendationService {
         List<SkillGapRecommendation> list = new ArrayList<>();
 
         for (Skill skill : skills) {
-            SkillGapRecommendation rec =
-                    computeRecommendationForStudentSkill(studentId, skill.getId());
-            list.add(rec);
+            list.add(
+                    computeRecommendationForStudentSkill(studentId, skill.getId())
+            );
         }
 
         return list;
