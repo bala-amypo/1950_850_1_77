@@ -15,8 +15,25 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     private final StudentProfileRepository repository;
 
     @Override
-    public StudentProfile createProfile(StudentProfile profile) {
+    public StudentProfile create(StudentProfile profile) {
         return repository.save(profile);
+    }
+
+    @Override
+    public StudentProfile update(Long id, StudentProfile profile) {
+        StudentProfile existing = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("StudentProfile not found"));
+
+        existing.setName(profile.getName());
+        existing.setEmail(profile.getEmail());
+        existing.setCourse(profile.getCourse());
+
+        return repository.save(existing);
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 
     @Override
