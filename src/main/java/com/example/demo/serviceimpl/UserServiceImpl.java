@@ -11,41 +11,50 @@ import java.util.List;
 
 public class UserServiceImpl implements AuthService {
 
-    private final UserRepository repo;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder =
+            new BCryptPasswordEncoder();
 
-    public UserServiceImpl(UserRepository repo) {
-        this.repo = repo;
+    // ⚠️ EXACT constructor used in tests
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
-    public User register(RegisterRequest req) {
-        if (repo.existsByEmail(req.getEmail())) {
+    public User register(RegisterRequest request) {
+
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
+
         User user = User.builder()
-                .fullName(req.getFullName())
-                .email(req.getEmail())
-                .password(encoder.encode(req.getPassword()))
-                .role(req.getRole() == null ? User.Role.STUDENT : req.getRole())
+                .fullName(request.getFullName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(request.getRole() == null
+                        ? User.Role.STUDENT
+                        : request.getRole())
                 .build();
-        return repo.save(user);
+
+        return userRepository.save(user);
     }
 
     @Override
     public User getById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("user not found"));
+        return userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("user not found"));
     }
 
     @Override
     public User findByEmail(String email) {
-        return repo.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("user not found"));
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("user not found"));
     }
 
     @Override
     public List<User> listInstructors() {
-        return repo.findByRole(User.Role.INSTRUCTOR);
+        return userRepository.findByRole(User.Role.INSTRUCTOR);
     }
 }
