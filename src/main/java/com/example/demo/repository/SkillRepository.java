@@ -1,10 +1,16 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Skill;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
-public interface SkillRepository extends JpaRepository<Skill, Long> {
-    Optional<Skill> findByCode(String code);
+public interface SkillRepository {
+
+    Optional<Skill> findById(Long id);
+
+    Optional<Skill> findBySkillName(String skillName);
+
     List<Skill> findByActiveTrue();
+
+    Skill save(Skill skill);
 }

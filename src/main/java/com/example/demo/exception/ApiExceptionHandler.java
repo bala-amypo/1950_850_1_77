@@ -1,7 +1,7 @@
 package com.example.demo.exception;
 
-import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.*;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -12,7 +12,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegal(IllegalArgumentException ex) {
+    public ResponseEntity<String> handleBadRequest(IllegalArgumentException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
