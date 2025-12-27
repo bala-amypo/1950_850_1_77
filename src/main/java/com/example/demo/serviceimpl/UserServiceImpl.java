@@ -5,8 +5,6 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,10 +39,5 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User not found"));
-    }
-
-    @Override
-    public List<User> listInstructors() {
-        return userRepository.findByRole(User.Role.INSTRUCTOR);
     }
 }
