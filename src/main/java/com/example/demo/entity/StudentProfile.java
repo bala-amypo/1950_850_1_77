@@ -3,34 +3,37 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class StudentProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String enrollmentId;
+    private String name;
 
     private String grade;
 
-    private String cohort;
+    private boolean active = true;
 
-    private Instant lastUpdatedAt;
+    private LocalDateTime lastUpdatedAt;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "user_id", nullable = true)
+    @ManyToOne
     private User user;
 
-    @PrePersist
     @PreUpdate
-    public void updateTimestamp() {
-        this.lastUpdatedAt = Instant.now();
+    public void preUpdate() {
+        this.lastUpdatedAt = LocalDateTime.now();
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

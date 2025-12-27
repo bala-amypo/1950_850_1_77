@@ -3,8 +3,6 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Instant;
-
 @Entity
 @Getter
 @Setter
@@ -12,10 +10,6 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 public class User {
-
-    public enum Role {
-        ADMIN, INSTRUCTOR, STUDENT
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,18 +21,11 @@ public class User {
 
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String role;
 
-    private Instant createdAt;
+    private boolean active = true;
 
-    @PrePersist
-    public void prePersist() {
-        if (createdAt == null) {
-            createdAt = Instant.now();
-        }
-        if (role == null) {
-            role = Role.STUDENT;
-        }
+    public boolean isActive() {
+        return active;
     }
 }
