@@ -1,42 +1,49 @@
 package com.example.demo.config;
 
+import com.example.demo.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JwtUtil {
 
     private final Key key;
-    private final int expiry;
+    private final long validityInMs;
 
-    // REQUIRED BY TEST
-    public JwtUtil(String secret, int expiry) {
+    // REQUIRED constructor (tests use this)
+    public JwtUtil(String secret, long validityInMs) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
-        this.expiry = expiry;
+        this.validityInMs = validityInMs;
     }
 
-    // DEFAULT
-    public JwtUtil() {
-        this("defaultsecretdefaultsecretdefaultsecret", 3600000);
-    }
+    // Used in tests
+    public String generateToken(User user) {
 
-    public String generateToken(String subject) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getId());
+        claims.put("email", user.getEmail());
+        claims.put("role", user.getRole().name());
+
+        Date now = new Date();
+        Date expiry = new Date(now.getTime() + validityInMs);
+
         return Jwts.builder()
-                .setSubject(subject)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiry))
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiry)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // REQUIRED BY TEST
-    public String validateAndParse(String token) {
+    // Used DIRECTLY in tests
+    public Jws<Claims> validateAndParse(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .parseClaimsJws(token);
     }
 }
