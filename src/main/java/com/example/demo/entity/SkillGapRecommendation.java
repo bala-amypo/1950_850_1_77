@@ -2,15 +2,14 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.Instant;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class SkillGapRecommendation {
 
     @Id
@@ -31,10 +30,5 @@ public class SkillGapRecommendation {
 
     private String generatedBy;
 
-    private Instant generatedAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.generatedAt = Instant.now();
-    }
+    private Instant generatedAt = Instant.now();
 }

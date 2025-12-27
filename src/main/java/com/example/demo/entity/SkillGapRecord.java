@@ -2,15 +2,14 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.Instant;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class SkillGapRecord {
 
     @Id
@@ -29,10 +28,5 @@ public class SkillGapRecord {
 
     private Double gapScore;
 
-    private Instant calculatedAt;
-
-    @PrePersist
-    public void prePersist() {
-        this.calculatedAt = Instant.now();
-    }
+    private Instant calculatedAt = Instant.now();
 }
