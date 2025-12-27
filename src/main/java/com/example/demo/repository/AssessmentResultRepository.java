@@ -11,13 +11,15 @@ import java.util.List;
 public interface AssessmentResultRepository
         extends JpaRepository<AssessmentResult, Long> {
 
-    // Used in many tests
+    // already required
     List<AssessmentResult> findByStudentProfileIdAndSkillId(
             Long studentProfileId,
             Long skillId
     );
 
-    // 🔥 FIXED: Explicit JPQL (prevents startup crash)
+    // ✅ ADD THIS (FIXES YOUR ERROR)
+    List<AssessmentResult> findByStudentProfileId(Long studentProfileId);
+
     @Query("""
         select avg(a.score)
         from AssessmentResult a
@@ -29,7 +31,6 @@ public interface AssessmentResultRepository
             @Param("skillId") Long skillId
     );
 
-    // Used in tests
     @Query("""
         select a
         from AssessmentResult a
@@ -40,7 +41,6 @@ public interface AssessmentResultRepository
             @Param("studentId") Long studentId
     );
 
-    // Used in tests
     @Query("""
         select a
         from AssessmentResult a
