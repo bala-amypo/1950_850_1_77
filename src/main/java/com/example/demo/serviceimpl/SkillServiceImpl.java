@@ -6,7 +6,9 @@ import com.example.demo.repository.SkillRepository;
 import com.example.demo.service.SkillService;
 
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SkillServiceImpl implements SkillService {
 
     private final SkillRepository repository;
