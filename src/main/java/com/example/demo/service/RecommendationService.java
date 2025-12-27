@@ -4,11 +4,7 @@ import com.example.demo.entity.SkillGapRecommendation;
 import java.util.List;
 
 public interface RecommendationService {
-
-    double computeRecommendationsForStudentSkill(Long studentId, Long skillId);
-
+    SkillGapRecommendation computeRecommendationForStudentSkill(Long studentId, Long skillId);
+    List<SkillGapRecommendation> computeRecommendationsForStudent(Long studentId);
     List<SkillGapRecommendation> getRecommendationsForStudent(Long studentId);
-
-    // ✅ ADD THIS
-    List<SkillGapRecommendation> generateRecommendations(Long studentId);
 }
