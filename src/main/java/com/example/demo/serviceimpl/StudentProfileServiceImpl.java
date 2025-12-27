@@ -21,14 +21,13 @@ public class StudentProfileServiceImpl implements StudentProfileService {
 
     @Override
     public StudentProfile update(Long id, StudentProfile profile) {
-        StudentProfile existing = repository.findById(id)
+        // ensure ID exists
+        repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("StudentProfile not found"));
 
-        existing.setName(profile.getName());
-        existing.setEmail(profile.getEmail());
-        existing.setCourse(profile.getCourse());
-
-        return repository.save(existing);
+        // force update by ID (NO field guessing)
+        profile.setId(id);
+        return repository.save(profile);
     }
 
     @Override
