@@ -1,18 +1,24 @@
+package com.example.demo.config;
+
+import com.example.demo.entity.User;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
 @Component
 public class JwtUtil {
 
-    public JwtUtil() {}
+    private static final String SECRET = "secret_key_123";
 
     public String generateToken(User user) {
-        return "test-token";
-    }
-
-    public User validateAndParse(String token) {
-        return User.builder()
-                .id(1L)
-                .email("test@example.com")
-                .role(User.Role.STUDENT)
-                .active(true)
-                .build();
+        return Jwts.builder()
+                .setSubject(user.getEmail())
+                .claim("role", user.getRole())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .signWith(SignatureAlgorithm.HS256, SECRET)
+                .compact();
     }
 }
