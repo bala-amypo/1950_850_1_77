@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.SkillGapRecommendation;
 import com.example.demo.service.RecommendationService;
-
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +18,9 @@ public class RecommendationController {
         this.service = service;
     }
 
-    @PostMapping("/generate/{studentId}")
-    public List<SkillGapRecommendation> generate(@PathVariable Long studentId) {
-        return service.computeRecommendationsForStudent(studentId);
-    }
-
-    @GetMapping("/student/{studentId}")
-    public List<SkillGapRecommendation> history(@PathVariable Long studentId) {
-        return service.getRecommendationsForStudent(studentId);
+    @GetMapping("/student/{studentProfileId}")
+    public List<SkillGapRecommendation> getRecommendations(
+            @PathVariable Long studentProfileId) {
+        return service.getRecommendations(studentProfileId);
     }
 }
