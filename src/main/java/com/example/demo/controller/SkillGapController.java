@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.SkillGapRecord;
 import com.example.demo.service.SkillGapService;
-
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/gaps")
-@Tag(name = "Gaps")
+@Tag(name = "Skill Gaps")
 public class SkillGapController {
 
     private final SkillGapService service;
@@ -19,13 +18,9 @@ public class SkillGapController {
         this.service = service;
     }
 
-    @PostMapping("/compute/{studentId}")
-    public List<SkillGapRecord> compute(@PathVariable Long studentId) {
-        return service.computeGaps(studentId);
-    }
-
-    @GetMapping("/student/{studentId}")
-    public List<SkillGapRecord> get(@PathVariable Long studentId) {
-        return service.getGapsByStudent(studentId);
+    @PostMapping("/compute/{studentProfileId}")
+    public List<SkillGapRecord> computeGaps(
+            @PathVariable Long studentProfileId) {
+        return service.calculateSkillGaps(studentProfileId);
     }
 }
