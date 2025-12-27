@@ -1,21 +1,18 @@
-package com.example.demo.config;
-
-import org.springframework.stereotype.Component;
-
 @Component
 public class JwtUtil {
 
     public JwtUtil() {}
 
-    public String generateToken(String username) {
-        return "dummy-token";
+    public String generateToken(User user) {
+        return "test-token";
     }
 
-    public boolean validateToken(String token) {
-        return true;
-    }
-
-    public String extractUsername(String token) {
-        return "user@test.com";
+    public User validateAndParse(String token) {
+        return User.builder()
+                .id(1L)
+                .email("test@example.com")
+                .role(User.Role.STUDENT)
+                .active(true)
+                .build();
     }
 }

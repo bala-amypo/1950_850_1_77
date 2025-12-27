@@ -2,18 +2,19 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.Instant;
 
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
 
     public enum Role {
-        ADMIN, INSTRUCTOR, STUDENT
+        ADMIN,
+        STUDENT,
+        INSTRUCTOR
     }
 
     @Id
@@ -21,19 +22,16 @@ public class User {
     private Long id;
 
     private String fullName;
-
-    @Column(unique = true, nullable = false)
     private String email;
-
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.STUDENT;
+    private Role role;
 
-    private Instant createdAt;
+    @Builder.Default
+    private boolean active = true;
 
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = Instant.now();
+    public boolean isActive() {
+        return active;
     }
 }
