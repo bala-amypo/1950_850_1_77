@@ -36,4 +36,3 @@ public class SkillGapRecord {
         this.calculatedAt = Instant.now();
     }
 }
-`
