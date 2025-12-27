@@ -1,13 +1,8 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class StudentProfile {
 
     @Id
@@ -18,4 +13,15 @@ public class StudentProfile {
 
     @OneToOne
     private User user;
+
+    public StudentProfile() {}
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getGrade() { return grade; }
+    public void setGrade(String grade) { this.grade = grade; }
+
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 }

@@ -10,28 +10,14 @@ import java.util.List;
 @Service
 public class AssessmentServiceImpl implements AssessmentService {
 
-    private final AssessmentResultRepository repository;
+    private final AssessmentResultRepository repo;
 
-    public AssessmentServiceImpl(AssessmentResultRepository repository) {
-        this.repository = repository;
+    public AssessmentServiceImpl(AssessmentResultRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public AssessmentResult recordAssessment(AssessmentResult result) {
-
-        if (result.getScoreObtained() == null ||
-            result.getMaxScore() == null ||
-            result.getScoreObtained() < 0 ||
-            result.getScoreObtained() > result.getMaxScore()) {
-
-            throw new IllegalArgumentException("Invalid score");
-        }
-
-        return repository.save(result);
-    }
-
-    @Override
-    public List<AssessmentResult> getResultsForStudent(Long studentProfileId) {
-        return repository.findByStudentProfileId(studentProfileId);
+    public List<AssessmentResult> getResults(Long studentId) {
+        return repo.findAll();
     }
 }

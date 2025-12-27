@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.User;
 import com.example.demo.service.AuthService;
@@ -18,25 +17,12 @@ public class AuthController {
 
     @PostMapping("/register")
     public User register(@RequestBody RegisterRequest request) {
-
-        // ✅ Convert DTO → Entity
-        User user = User.builder()
-                .fullName(request.getFullName())
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .role(User.Role.valueOf(request.getRole()))
-                .build();
-
+        User user = new User();
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
+        user.setActive(true);
         return authService.register(user);
-    }
-
-    @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
-
-        // ✅ Pass required parameters
-        return authService.login(
-                request.getEmail(),
-                request.getPassword()
-        );
     }
 }
