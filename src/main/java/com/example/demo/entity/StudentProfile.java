@@ -7,8 +7,8 @@ import java.time.Instant;
 
 @Entity
 @Table(
-    name = "student_profiles",
-    uniqueConstraints = @UniqueConstraint(columnNames = "enrollmentId")
+        name = "student_profiles",
+        uniqueConstraints = @UniqueConstraint(columnNames = "enrollmentId")
 )
 @Getter
 @Setter
@@ -27,11 +27,12 @@ public class StudentProfile {
     @Column(nullable = false, unique = true)
     private String enrollmentId;
 
+    // REQUIRED BY TEST
+    private String grade;
+
     private String cohort;
 
     private Integer yearLevel;
-
-    private String grade;   
 
     @Builder.Default
     private Boolean active = true;
