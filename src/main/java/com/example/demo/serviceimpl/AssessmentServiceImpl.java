@@ -42,6 +42,11 @@ public class AssessmentServiceImpl implements AssessmentService {
     }
 
     @Override
+    public AssessmentResult recordAssessment(AssessmentResult result) {
+        return repository.save(result);
+    }
+
+    @Override
     public List<AssessmentResult> getResultsForStudent(Long studentId) {
         return repository.findAll();
     }

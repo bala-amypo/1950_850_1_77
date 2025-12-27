@@ -25,7 +25,7 @@
 //     public List<Skill> getAllSkills() {
 //         return repo.findAll();
 //     }
-// }
+// 
 
 package com.example.demo.serviceimpl;
 
