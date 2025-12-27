@@ -38,4 +38,13 @@ public class AssessmentServiceImpl implements AssessmentService {
     public List<AssessmentResult> getResultsByStudent(Long studentProfileId) {
         return repo.findByStudentProfileId(studentProfileId);
     }
+
+    // ✅ THIS FIXES THE COMPILATION ERROR
+    @Override
+    public List<AssessmentResult> getResultsByStudentAndSkill(
+            Long studentProfileId,
+            Long skillId
+    ) {
+        return repo.findByStudentProfileIdAndSkillId(studentProfileId, skillId);
+    }
 }
