@@ -1,10 +1,20 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.Instant;
 
 @Entity
-@Table(name = "student_profiles", uniqueConstraints = @UniqueConstraint(columnNames = "enrollmentId"))
+@Table(
+    name = "student_profiles",
+    uniqueConstraints = @UniqueConstraint(columnNames = "enrollmentId")
+)
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentProfile {
 
     @Id
@@ -21,34 +31,14 @@ public class StudentProfile {
 
     private Integer yearLevel;
 
+    @Builder.Default
     private Boolean active = true;
 
+    @Builder.Default
     private Instant lastUpdatedAt = Instant.now();
 
     @PreUpdate
     public void preUpdate() {
         this.lastUpdatedAt = Instant.now();
     }
-
-    // getters & setters
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-
-    public String getEnrollmentId() { return enrollmentId; }
-    public void setEnrollmentId(String enrollmentId) { this.enrollmentId = enrollmentId; }
-
-    public String getCohort() { return cohort; }
-    public void setCohort(String cohort) { this.cohort = cohort; }
-
-    public Integer getYearLevel() { return yearLevel; }
-    public void setYearLevel(Integer yearLevel) { this.yearLevel = yearLevel; }
-
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
-
-    public Instant getLastUpdatedAt() { return lastUpdatedAt; }
 }
