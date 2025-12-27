@@ -17,32 +17,20 @@ public class SecurityConfig {
         this.jwtUtil = jwtUtil;
     }
 
-    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                        "/auth/**",
-                        "/health",
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-            )
+            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
             .addFilterBefore(
-                    new JwtAuthenticationFilter(jwtUtil),
-                    UsernamePasswordAuthenticationFilter.class
+                new JwtAuthenticationFilter(jwtUtil),
+                UsernamePasswordAuthenticationFilter.class
             );
-
         return http.build();
     }
 }

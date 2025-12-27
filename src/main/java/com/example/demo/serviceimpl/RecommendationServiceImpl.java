@@ -1,25 +1,17 @@
 package com.example.demo.serviceimpl;
 
-import com.example.demo.entity.SkillGapRecommendation;
-import com.example.demo.repository.SkillGapRecommendationRepository;
-import com.example.demo.service.RecommendationService;
+import com.example.demo.repository.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class RecommendationServiceImpl implements RecommendationService {
-
-    private final SkillGapRecommendationRepository repository;
+public class RecommendationServiceImpl {
 
     public RecommendationServiceImpl(
-            SkillGapRecommendationRepository repository) {
-        this.repository = repository;
-    }
+            AssessmentResultRepository assessmentResultRepository,
+            SkillGapRecommendationRepository recommendationRepository,
+            StudentProfileRepository studentProfileRepository,
+            SkillRepository skillRepository
+    ) {}
 
-    @Override
-    public List<SkillGapRecommendation> getRecommendations(Long studentProfileId) {
-        return repository
-                .findByStudentProfileIdOrderByGeneratedAtDesc(studentProfileId);
-    }
+    public void computeRecommendationsForStudent(Long studentId) {}
 }
