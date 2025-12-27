@@ -26,7 +26,6 @@
 //         return repo.findAll();
 //     }
 // 
-
 package com.example.demo.serviceimpl;
 
 import com.example.demo.entity.Skill;
@@ -54,8 +53,11 @@ public class SkillServiceImpl implements SkillService {
     public Skill updateSkill(Long id, Skill skill) {
         Skill existing = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Skill not found"));
+
         existing.setName(skill.getName());
         existing.setDescription(skill.getDescription());
+        existing.setActive(skill.isActive());
+
         return repository.save(existing);
     }
 
