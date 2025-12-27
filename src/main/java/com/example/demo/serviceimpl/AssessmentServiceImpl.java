@@ -5,9 +5,9 @@ import com.example.demo.repository.AssessmentResultRepository;
 import com.example.demo.service.AssessmentService;
 
 import java.util.List;
-
+@Service
 public class AssessmentServiceImpl implements AssessmentService {
-
+ 
     private final AssessmentResultRepository repo;
 
     public AssessmentServiceImpl(AssessmentResultRepository repo) {
