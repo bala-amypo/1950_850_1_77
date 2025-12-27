@@ -7,7 +7,9 @@ import com.example.demo.service.StudentProfileService;
 
 import java.util.List;
 
+@Service
 public class StudentProfileServiceImpl implements StudentProfileService {
+
 
     private final StudentProfileRepository repo;
 

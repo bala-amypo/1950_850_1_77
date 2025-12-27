@@ -6,6 +6,7 @@ import com.example.demo.service.RecommendationService;
 
 import java.util.*;
 
+@Service
 public class RecommendationServiceImpl implements RecommendationService {
 
     private final AssessmentResultRepository assessmentRepo;

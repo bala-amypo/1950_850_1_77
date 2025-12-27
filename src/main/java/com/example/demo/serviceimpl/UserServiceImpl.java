@@ -9,8 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements AuthService {
-
+ 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder =
             new BCryptPasswordEncoder();

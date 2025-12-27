@@ -7,6 +7,7 @@ import com.example.demo.service.SkillService;
 
 import java.util.List;
 
+@Service
 public class SkillServiceImpl implements SkillService {
 
     private final SkillRepository repo;

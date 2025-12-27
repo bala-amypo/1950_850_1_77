@@ -7,7 +7,9 @@ import com.example.demo.service.SkillGapService;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class SkillGapServiceImpl implements SkillGapService {
+
 
     private final SkillGapRecordRepository gapRepo;
     private final SkillRepository skillRepo;
