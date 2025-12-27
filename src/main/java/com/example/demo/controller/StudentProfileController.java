@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.StudentProfile;
 import com.example.demo.service.StudentProfileService;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,27 +21,21 @@ public class StudentProfileController {
 
     @PostMapping
     public StudentProfile create(@RequestBody StudentProfile profile) {
-        return service.create(profile);
+        return service.createOrUpdateProfile(profile);
     }
 
     @GetMapping("/{id}")
-    public StudentProfile get(@PathVariable Long id) {
-        return service.getById(id);
+    public StudentProfile getById(@PathVariable Long id) {
+        return service.getProfileById(id);
+    }
+
+    @GetMapping("/enrollment/{enrollmentId}")
+    public StudentProfile getByEnrollment(@PathVariable String enrollmentId) {
+        return service.getProfileByEnrollmentId(enrollmentId);
     }
 
     @GetMapping
-    public List<StudentProfile> getAll() {
-        return service.getAll();
-    }
-
-    @PutMapping("/{id}")
-    public StudentProfile update(@PathVariable Long id,
-                                 @RequestBody StudentProfile profile) {
-        return service.update(id, profile);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+    public List<StudentProfile> all() {
+        return service.getAllProfiles();
     }
 }

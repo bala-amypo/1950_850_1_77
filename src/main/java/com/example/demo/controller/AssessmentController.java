@@ -2,12 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.AssessmentResult;
 import com.example.demo.service.AssessmentService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/assessments")
+@Tag(name = "Assessments")
 public class AssessmentController {
 
     private final AssessmentService service;
@@ -21,8 +24,15 @@ public class AssessmentController {
         return service.recordAssessment(result);
     }
 
-    @GetMapping("/student/{id}")
-    public List<AssessmentResult> getByStudent(@PathVariable Long id) {
-        return service.getByStudent(id);
+    @GetMapping("/student/{studentId}")
+    public List<AssessmentResult> byStudent(@PathVariable Long studentId) {
+        return service.getResultsByStudent(studentId);
+    }
+
+    @GetMapping("/student/{studentId}/skill/{skillId}")
+    public List<AssessmentResult> byStudentAndSkill(
+            @PathVariable Long studentId,
+            @PathVariable Long skillId) {
+        return service.getResultsByStudentAndSkill(studentId, skillId);
     }
 }
