@@ -24,11 +24,6 @@ public class SkillServiceImpl implements SkillService {
             throw new IllegalArgumentException("Skill code must be unique");
         }
 
-        if (skill.getMinCompetencyScore() != null &&
-                (skill.getMinCompetencyScore() < 0 || skill.getMinCompetencyScore() > 100)) {
-            throw new IllegalArgumentException("Invalid score");
-        }
-
         return skillRepository.save(skill);
     }
 
