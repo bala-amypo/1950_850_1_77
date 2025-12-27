@@ -1,12 +1,19 @@
 package com.example.demo.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-@Data
+import java.time.Instant;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserDTO {
+
     private Long id;
-    private String name;
+    private String fullName;
     private String email;
+    private String role;
+    private Instant createdAt;
 }
