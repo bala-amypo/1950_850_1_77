@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class HealthServiceImpl implements HealthService {
 
     @Override
-    public String getStatus() {
+    public String checkHealth() {
         return "UP";
     }
 }
